@@ -8,7 +8,7 @@
     Title="pitchr">
 
     <ShellContent
-        Title="Home"
+        Title="pitchr"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
