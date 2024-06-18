@@ -10,10 +10,10 @@ namespace pitchr {
 
         public MainPage() {
             InitializeComponent();
-            InitializeWaveform();
+            DrawWaveform();
         }
 
-        private void InitializeWaveform() {
+        private void DrawWaveform() {
             var random = new Random();
             foreach (var child in WaveformGrid.Children) {
                 if (child is BoxView boxView) {

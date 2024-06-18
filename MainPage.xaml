@@ -14,25 +14,25 @@
 
         <!-- Simulated waveform using BoxView elements -->
         <Grid x:Name="WaveformGrid" Grid.Row="0" BackgroundColor="#000210">
-            <BoxView Color="White" WidthRequest="5" HeightRequest="10" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="20" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="30" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="40" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="50" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="60" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="50" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="40" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="30" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="20" VerticalOptions="End" Margin="1,0,0,0"/>
-            <BoxView Color="White" WidthRequest="5" HeightRequest="10" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="10" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="20" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="30" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="40" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="50" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="60" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="50" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="40" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="30" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="20" VerticalOptions="End" Margin="1,0,0,0"/>
+            <BoxView Color="White" WidthRequest="3" HeightRequest="10" VerticalOptions="End" Margin="1,0,0,0"/>
         </Grid>
 
         <!--pitch bar / space to move on pitch change-->
         <Grid x:Name="PitchGrid" Grid.Row="0" BackgroundColor="#000210" Opacity="0.8">
             <BoxView x:Name="PitchBar"
                      Color="#ffffaa"
-                     WidthRequest="200"
-                     HeightRequest="7"
+                     WidthRequest="7"
+                     HeightRequest="150"
                      HorizontalOptions="Center"
                      VerticalOptions="Center"
                      Margin="0,20,0,0" />
