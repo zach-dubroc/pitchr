@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="pitchr.MainPage"
+             BackgroundColor="#121212">
+
+    <Grid Padding="20">
+
+        <!-- Top bar with title -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Label Text="tuner? I hardly know her" 
+                   FontSize="24" 
+                   TextColor="#FFFFFF" 
+                   HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+
+        <!--update note name based on mic input
+        algo to find note name from fft spec data
+        how to measure
+        -->
+        <!-- Pitch Detection Display -->
+        <Grid Row="1" VerticalOptions="CenterAndExpand">
+            <Label Text="E"
+                   FontSize="100"
+                   TextColor="#1DB954"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            <Label Text="440 Hz"
+                   FontSize="20"
+                   TextColor="#ffffff"
+                   HorizontalOptions="Center"
+                   VerticalOptions="End" />
+            <Label 
+                   x:Name="testLbl"
+                   Text="█"
+                   FontSize="20"
+                   TextColor="#1DB954"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Start" />
+        </Grid>
+
+        
+       <!--moving this needle based on signal
+        1 get fft spec data,
+        2 algo to find note based on that
+        3 how to use result of that 
+        -->
+        
+        <!-- Tuning Indicator -->
+        <Grid Row="2" VerticalOptions="EndAndExpand" HeightRequest="200">
+            <BoxView BackgroundColor="#1DB954"
+                     HeightRequest="150"
+                     WidthRequest="2"
+                     HorizontalOptions="Center"
+                     VerticalOptions="CenterAndExpand" />
+        </Grid>
+
+
+
+        <!--refactor input test program
+        1. get mic input, same logic as console test
+        2. write test .wav file on windows first
+        2. try with android emulator, get mic permission
+        
+        then finally, learn how to use that dang ole data
+        to write a pretty as fuck audio visualizer for the 
+        background of this piece of shit app
+        -->
+        <Button Text="Start"
+                x:Name="startBtn"
+                HeightRequest="3"
+                HorizontalOptions="Start"
+                Clicked="OnStartClick"/>
+        <Button Text="Stop"
+                x:Name="stopBtn"
+                HeightRequest="3"
+                HorizontalOptions="End"
+                Clicked="OnStopClick"/>
+    </Grid>
+</ContentPage>
