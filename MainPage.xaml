@@ -14,10 +14,12 @@
                    HorizontalOptions="CenterAndExpand" />
         </StackLayout>
 
-        <!--update note name based on mic input
+        <!--
+        update note name based on mic input
         algo to find note name from fft spec data
         how to measure
         -->
+        
         <!-- Pitch Detection Display -->
         <Grid Row="1" VerticalOptions="CenterAndExpand">
             <Label Text="E"

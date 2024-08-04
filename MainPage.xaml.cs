@@ -4,9 +4,9 @@ namespace pitchr {
   public partial class MainPage : ContentPage {
     //main todo:
     //1. get mic input DONE DID
+    //2. visualize it DOIN
 
     //--not doin yet:
-    //2. visualize it DO DIS
     //3. make the tuner actually tune
 
     //globally for to start, separate later
