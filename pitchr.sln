@@ -5,8 +5,6 @@ VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pitchr", "pitchr.csproj", "{3C20CA45-E701-4936-993B-65B73F8E841E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "input testing", "..\input testing\input testing.csproj", "{449C1677-1F09-4198-BE41-5C0899C73AC4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,10 +17,6 @@ Global
 		{3C20CA45-E701-4936-993B-65B73F8E841E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C20CA45-E701-4936-993B-65B73F8E841E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C20CA45-E701-4936-993B-65B73F8E841E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{449C1677-1F09-4198-BE41-5C0899C73AC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{449C1677-1F09-4198-BE41-5C0899C73AC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{449C1677-1F09-4198-BE41-5C0899C73AC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{449C1677-1F09-4198-BE41-5C0899C73AC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

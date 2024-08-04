@@ -8,7 +8,7 @@
 
         <!-- Top bar with title -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-            <Label Text="tuner? I hardly know her" 
+            <Label Text="" 
                    FontSize="24" 
                    TextColor="#FFFFFF" 
                    HorizontalOptions="CenterAndExpand" />
@@ -50,7 +50,9 @@
         
         <!-- Tuning Indicator -->
         <Grid Row="2" VerticalOptions="EndAndExpand" HeightRequest="200">
-            <BoxView BackgroundColor="#1DB954"
+            <BoxView
+                     x:Name="waveFormVisual"
+                     BackgroundColor="#1DB954"
                      HeightRequest="150"
                      WidthRequest="2"
                      HorizontalOptions="Center"
