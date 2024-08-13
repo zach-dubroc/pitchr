@@ -70,7 +70,7 @@
         to write a pretty as fuck audio visualizer for the 
         background of this piece of shit app
         -->
-        <Button Text="Start"
+        <!--<Button Text="Start"
                 x:Name="startBtn"
                 HeightRequest="3"
                 HorizontalOptions="Start"
@@ -79,6 +79,6 @@
                 x:Name="stopBtn"
                 HeightRequest="3"
                 HorizontalOptions="End"
-                Clicked="OnStopClick"/>
+                Clicked="OnStopClick"/>-->
     </Grid>
 </ContentPage>
