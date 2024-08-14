@@ -50,6 +50,14 @@
                        HorizontalOptions="Center"
                        VerticalOptions="Center"
                        FontAttributes="Bold"/>
+                <Label 
+                        x:Name="octaveLbl"
+                        Text="4"
+                        FontSize="50"
+                        TextColor="#1DB954" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        FontAttributes="Bold"/>
                 <Label Text="440 Hz"
                        FontSize="20"
                        TextColor="#B3B3B3" 
