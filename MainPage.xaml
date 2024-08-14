@@ -1,84 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
              x:Class="pitchr.MainPage"
              BackgroundColor="#121212">
+    <!-- Spotify Dark Background -->
 
     <Grid Padding="20">
+        <!-- Define Rows: One for the title bar and one for the main content -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <!-- Title Bar -->
+            <RowDefinition Height="*" />
+            <!-- Main Content -->
+        </Grid.RowDefinitions>
 
         <!-- Top bar with title -->
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-            <Label Text="" 
-                   FontSize="24" 
-                   TextColor="#FFFFFF" 
-                   HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Horizontal" 
+                     HorizontalOptions="Center" 
+                     VerticalOptions="Start"
+                     Grid.Row="0">
+            <!-- Place in the first row -->
+            <Label Text="pitchr"
+                   FontSize="24"
+                   TextColor="#FFFFFA"
+                   HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold"/>
         </StackLayout>
 
-        <!--
-        update note name based on mic input
-        algo to find note name from fft spec data
-        how to measure
-        -->
-        
-        <!-- Pitch Detection Display -->
-        <Grid Row="1" VerticalOptions="CenterAndExpand">
-            <Label Text="E"
-                   FontSize="100"
-                   TextColor="#1DB954"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center" />
-            <Label Text="440 Hz"
-                   FontSize="20"
-                   TextColor="#ffffff"
-                   HorizontalOptions="Center"
-                   VerticalOptions="End" />
-            <Label 
-                   x:Name="testLbl"
-                   Text="█"
-                   FontSize="20"
-                   TextColor="#1DB954"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start" />
+        <!-- Grid to overlay Pitch Detection Display and Tuning Indicator -->
+        <Grid Grid.Row="1" VerticalOptions="FillAndExpand">
+            <!-- Place in the second row -->
+
+            <!-- Tuning Indicator -->
+            <skia:SKCanvasView x:Name="waveFormCanvas"
+                               PaintSurface="OnCanvasViewPaintSurface" 
+                               VerticalOptions="FillAndExpand"
+                               HorizontalOptions="FillAndExpand" />
+
+            <!-- Pitch Detection Display -->
+            <StackLayout VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         Orientation="Vertical">
+                <Label 
+                       x:Name="noteLbl"
+                       Text="E"
+                       FontSize="100"
+                       TextColor="#1DB954" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       FontAttributes="Bold"/>
+                <Label Text="440 Hz"
+                       FontSize="20"
+                       TextColor="#B3B3B3" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+            </StackLayout>
         </Grid>
-
-        
-       <!--moving this needle based on signal
-        1 get fft spec data,
-        2 algo to find note based on that
-        3 how to use result of that 
-        -->
-        
-        <!-- Tuning Indicator -->
-        <Grid Row="2" VerticalOptions="EndAndExpand" HeightRequest="200">
-            <BoxView
-                     x:Name="waveFormVisual"
-                     BackgroundColor="#1DB954"
-                     HeightRequest="150"
-                     WidthRequest="2"
-                     HorizontalOptions="Center"
-                     VerticalOptions="CenterAndExpand" />
-        </Grid>
-
-
-
-        <!--refactor input test program
-        1. get mic input, same logic as console test
-        2. write test .wav file on windows first
-        2. try with android emulator, get mic permission
-        
-        then finally, learn how to use that dang ole data
-        to write a pretty as fuck audio visualizer for the 
-        background of this piece of shit app
-        -->
-        <!--<Button Text="Start"
-                x:Name="startBtn"
-                HeightRequest="3"
-                HorizontalOptions="Start"
-                Clicked="OnStartClick"/>
-        <Button Text="Stop"
-                x:Name="stopBtn"
-                HeightRequest="3"
-                HorizontalOptions="End"
-                Clicked="OnStopClick"/>-->
     </Grid>
 </ContentPage>
