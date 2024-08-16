@@ -19,6 +19,10 @@ namespace pitchr {
       // Convert the float buffer to a complex array for FFT
       var complexBuffer = buffer.Select(b => new Complex(b, 0.0)).ToArray();
 
+      // Zero-padding for better resolution
+      var paddedBuffer = new Complex[complexBuffer.Length * 2];
+      complexBuffer.CopyTo(paddedBuffer, 0);
+
       // Perform the FFT
       Fourier.Forward(complexBuffer, FourierOptions.Matlab);
 
@@ -30,10 +34,23 @@ namespace pitchr {
 
       int peakIndex = Array.IndexOf(magnitudes, magnitudes.Max());
 
-      // Calculate the frequency corresponding to the peak index
-      float frequency = peakIndex * (float)_sampleRate / buffer.Length;
+      // Handle edge cases where peakIndex is at the bounds of the array
+      double interpolation = 0.0;
 
-      return frequency;
+      if (peakIndex > 0 && peakIndex < magnitudes.Length - 1) {
+        double left = magnitudes[peakIndex - 1];
+        double right = magnitudes[peakIndex + 1];
+        interpolation = (right - left) / (2 * (2 * magnitudes[peakIndex] - right - left));
+      }
+      else {
+        // If the peak is at the very beginning or end, we can't interpolate, so leave interpolation at 0
+        Console.WriteLine("Peak index at boundary, skipping interpolation.");
+      }
+
+      float preciseFrequency = (float)((peakIndex + interpolation) * _sampleRate / buffer.Length);
+
+      return preciseFrequency;
+
     }
 
     // Optional: Convert frequency to note name
@@ -41,8 +58,8 @@ namespace pitchr {
 
       //string[] noteAndOctave = [];
 
-      if (frequency <= 0) return ["",""];
-      
+      if (frequency <= 0) return ["", ""];
+
       string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 
       // Calculate the note number relative to A4 (440 Hz)
@@ -55,6 +72,18 @@ namespace pitchr {
       string noteName = noteNames[noteNumber % 12];
 
       return [noteName, octave.ToString()];
+    }
+
+    public float GetTargetFrequency(string noteName, int octave) {
+      string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+
+      int noteIndex = Array.IndexOf(noteNames, noteName);
+      if (noteIndex == -1) throw new ArgumentException("Invalid note name");
+
+      int noteNumber = noteIndex + (octave + 1) * 12;
+      float frequency = (float)(440.0 * Math.Pow(2, (noteNumber - 69) / 12.0));
+
+      return frequency;
     }
   }
 }

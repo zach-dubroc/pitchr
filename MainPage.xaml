@@ -5,14 +5,11 @@
              x:Class="pitchr.MainPage"
              BackgroundColor="#121212">
     <!-- Spotify Dark Background -->
-
     <Grid Padding="20">
-        <!-- Define Rows: One for the title bar and one for the main content -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <!-- Title Bar -->
             <RowDefinition Height="*" />
-            <!-- Main Content -->
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- Top bar with title -->
@@ -20,7 +17,6 @@
                      HorizontalOptions="Center" 
                      VerticalOptions="Start"
                      Grid.Row="0">
-            <!-- Place in the first row -->
             <Label Text="pitchr"
                    FontSize="24"
                    TextColor="#FFFFFA"
@@ -28,20 +24,23 @@
                    FontAttributes="Bold"/>
         </StackLayout>
 
-        <!-- Grid to overlay Pitch Detection Display and Tuning Indicator -->
+        <!-- Main content area for pitch detection and tuning indicator -->
         <Grid Grid.Row="1" VerticalOptions="FillAndExpand">
-            <!-- Place in the second row -->
-
-            <!-- Tuning Indicator -->
             <skia:SKCanvasView x:Name="waveFormCanvas"
                                PaintSurface="OnCanvasViewPaintSurface" 
                                VerticalOptions="FillAndExpand"
                                HorizontalOptions="FillAndExpand" />
 
-            <!-- Pitch Detection Display -->
             <StackLayout VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Orientation="Vertical">
+                <Label 
+                        x:Name="freqLbl"
+                        Text="440 Hz"
+                        FontSize="19"
+                        TextColor="#B3B3B3" 
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center" />
                 <Label 
                        x:Name="noteLbl"
                        Text="E"
@@ -58,12 +57,32 @@
                         HorizontalOptions="Center"
                         VerticalOptions="Center"
                         FontAttributes="Bold"/>
-                <Label Text="440 Hz"
-                       FontSize="20"
-                       TextColor="#B3B3B3" 
+
+                <!-- Needle Indicator -->
+                <Image x:Name="needleImage"
+                       Source="C:\Users\MCA\Downloads\needle.png"
+                       WidthRequest="200"
+                       HeightRequest="200"
+                       VerticalOptions="End"
                        HorizontalOptions="Center"
-                       VerticalOptions="Center" />
+                       Rotation="0"
+                       AnchorY="5"
+                       AnchorX="0"
+                       />
+                       
             </StackLayout>
+
+
         </Grid>
+        <!-- Bottom bar with instructions -->
+        <StackLayout Orientation="Vertical"
+                     HorizontalOptions="Center" 
+                     VerticalOptions="End"
+                     Grid.Row="2">
+            <Label Text="random quote here from an api call if a lyric/guitar api exists and is free"
+                   FontSize="13"
+                   TextColor="#B3B3B3"
+                   HorizontalOptions="Center"/>
+        </StackLayout>
     </Grid>
 </ContentPage>

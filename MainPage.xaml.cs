@@ -1,6 +1,11 @@
 ﻿using NAudio.Wave;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using MathNet.Numerics.IntegralTransforms;
+using System.Numerics;
 
 namespace pitchr {
   public partial class MainPage : ContentPage {
@@ -9,7 +14,8 @@ namespace pitchr {
     private bool isRecording = false;
     private List<float> audioBuffer;
     private PitchDetector pitchDetector;
-    private readonly int sampleRate = 48000; // Define the sample rate
+    private readonly int sampleRate = 96000;
+
     public MainPage() {
       InitializeComponent();
       audioBuffer = new List<float>();
@@ -30,7 +36,7 @@ namespace pitchr {
       if (isRecording) return;
 
       input = new WaveInEvent();
-      input.DeviceNumber = 0; // grab default device
+      input.DeviceNumber = 0;
       input.WaveFormat = new WaveFormat(sampleRate, 16, 1);
       input.DataAvailable += MicOn;
       input.StartRecording();
@@ -39,7 +45,6 @@ namespace pitchr {
 
     private void StopRecording() {
       if (!isRecording) return;
-      //reset waveIn event
       if (input != null) {
         input.StopRecording();
         input.Dispose();
@@ -49,47 +54,82 @@ namespace pitchr {
     }
 
     private void MicOn(object sender, WaveInEventArgs e) {
-        byte[] buffer = e.Buffer;
-        int bytesRecorded = e.BytesRecorded;
-        //process buffer
-        audioBuffer.Clear();
-        for (int i = 0; i < bytesRecorded; i+=2) {
-          short sample = BitConverter.ToInt16(buffer, i); //convert each sample to 16bit int
-          //because max val of 65535
-          audioBuffer.Add(sample / 32768f); //bring sample range from -1.0 to 1.0
-        }
-
+      byte[] buffer = e.Buffer;
+      int bytesRecorded = e.BytesRecorded;
+      audioBuffer.Clear();
+      for (int i = 0; i < bytesRecorded; i += 2) {
+        short sample = BitConverter.ToInt16(buffer, i);
+        audioBuffer.Add(sample / 32768f);
+      }
 
       float pitch = pitchDetector.DetectPitch(audioBuffer.ToArray());
-
-      // Update the UI with the detected pitch frequency and note name
+      string[] noteInfo = pitchDetector.ConvertFrequencyToNoteName(pitch);
 
       MainThread.BeginInvokeOnMainThread(() => {
-        noteLbl.Text = pitchDetector.ConvertFrequencyToNoteName(pitch)[0];
-        octaveLbl.Text = pitchDetector.ConvertFrequencyToNoteName(pitch)[1];
+        freqLbl.Text = $"{pitch:F2} Hz";
+        noteLbl.Text = noteInfo[0];
+        octaveLbl.Text = noteInfo[1];
+
+        // Update needle rotation based on the pitch offset from the target note
+        float rotationAngle = CalculateNeedleRotation(pitch, noteInfo);
+        needleImage.Rotation = rotationAngle;
+
+        // Change label colors based on tuning accuracy
+        bool isInTune = Math.Abs(rotationAngle) < 2; // Example threshold
+        noteLbl.TextColor = isInTune ? Color.FromHex("#1DB954") : Color.FromHex("#ff6347");
+        octaveLbl.TextColor = isInTune ? Color.FromHex("#1DB954") : Color.FromHex("#ff6347");
+
         waveFormCanvas.InvalidateSurface();
       });
+    }
 
-      waveFormCanvas.InvalidateSurface();
+    private float currentRotation = 0;
+
+    private float smoothingFactor = 0.1f; // Adjust this value to control the smoothness
+
+    private float CalculateNeedleRotation(float pitch, string[] noteInfo) {
+      float targetFrequency;
+
+      if (noteInfo == null || noteInfo.Length != 2 || string.IsNullOrEmpty(noteInfo[0]) || !int.TryParse(noteInfo[1], out int octave)) {
+        Console.WriteLine("Invalid noteInfo provided, defaulting to A4 (440 Hz).");
+        targetFrequency = 440.0f; // A4 frequency
+      }
+      else {
+        try {
+          targetFrequency = pitchDetector.GetTargetFrequency(noteInfo[0], octave);
+        }
+        catch (Exception ex) {
+          Console.WriteLine($"Error calculating target frequency: {ex.Message}. Defaulting to A4 (440 Hz).");
+          targetFrequency = 440.0f; // A4 frequency
+        }
+      }
+
+      float offset = pitch - targetFrequency;
+      float targetRotation = offset * 5;
+
+      // Exponential smoothing
+      currentRotation = (1 - smoothingFactor) * currentRotation + smoothingFactor * targetRotation;
+
+      // Ensure the rotation is capped to prevent excessive movement
+      float maxRotation = 45.0f; // Example max rotation angle
+      currentRotation = Math.Max(-maxRotation, Math.Min(currentRotation, maxRotation));
+
+      return currentRotation;
     }
 
     private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e) {
       var canvas = e.Surface.Canvas;
       canvas.Clear(SKColors.Black);
-      //check for data to draw
+
       if (audioBuffer.Count > 0) {
-        //create new paint obj
         using (var paint = new SKPaint()) {
           paint.Style = SKPaintStyle.Stroke;
           paint.Color = SKColors.LightSlateGray;
           paint.StrokeWidth = 1;
-
           paint.IsAntialias = true;
-          //blur?
-          //paint.MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, 1);
+
           float middle = e.Info.Height / 2;
           float width = e.Info.Width;
-
           float step = width / (float)audioBuffer.Count;
 
           SKPath path = new SKPath();
