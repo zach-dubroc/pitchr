@@ -6,7 +6,6 @@
              BackgroundColor="#121212"
              >
              
-           
       <!--main grid-->
     <Grid>
         <Grid.RowDefinitions>
