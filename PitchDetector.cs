@@ -11,30 +11,28 @@ namespace pitchr {
     }
 
     public float DetectPitch(float[] buffer) {
-      // Apply a Hamming window to the buffer to reduce spectral leakage
+      //ham window
       for (int i = 0; i < buffer.Length; i++) {
         buffer[i] *= (float)(0.54 - 0.46 * Math.Cos(2 * Math.PI * i / (buffer.Length - 1)));
       }
 
-      // Convert the float buffer to a complex array for FFT
+      //float buffer --> complex array for fft
       var complexBuffer = buffer.Select(b => new Complex(b, 0.0)).ToArray();
 
-      // Zero-padding for better resolution
+      // adds empty space to complexArray so smooth results, not implemented
       var paddedBuffer = new Complex[complexBuffer.Length * 2];
       complexBuffer.CopyTo(paddedBuffer, 0);
 
-      // Perform the FFT
+      // call fft class
       Fourier.Forward(complexBuffer, FourierOptions.Matlab);
 
-      // Calculate magnitudes and find the index of the peak frequency
+      // finds peak/strongest point frequency
       double[] magnitudes = new double[complexBuffer.Length / 2];
       for (int i = 0; i < complexBuffer.Length / 2; i++) {
         magnitudes[i] = complexBuffer[i].Magnitude;
       }
-
       int peakIndex = Array.IndexOf(magnitudes, magnitudes.Max());
 
-      // Handle edge cases where peakIndex is at the bounds of the array
       double interpolation = 0.0;
 
       if (peakIndex > 0 && peakIndex < magnitudes.Length - 1) {
@@ -43,7 +41,7 @@ namespace pitchr {
         interpolation = (right - left) / (2 * (2 * magnitudes[peakIndex] - right - left));
       }
       else {
-        // If the peak is at the very beginning or end, we can't interpolate, so leave interpolation at 0
+        // if peak at end interpolation will index error
         Console.WriteLine("Peak index at boundary, skipping interpolation.");
       }
 
@@ -52,28 +50,20 @@ namespace pitchr {
       return preciseFrequency;
 
     }
-
-    // Optional: Convert frequency to note name
     public string[] ConvertFrequencyToNoteName(float frequency) {
-
-      //string[] noteAndOctave = [];
-
+      //A440 as reference pitch
+      //all midi notes 0-C1 to 127-G9
       if (frequency <= 0) return ["", ""];
-
       string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
-
-      // Calculate the note number relative to A4 (440 Hz)
       int noteNumber = (int)Math.Round(12 * Math.Log2(frequency / 440.0)) + 69;
-
-      // Ensure the noteNumber is within a valid range
-      noteNumber = Math.Max(0, Math.Min(noteNumber, 127)); // Limits the noteNumber between 0 and 127
-
+      noteNumber = Math.Max(0, Math.Min(noteNumber, 127)); 
+      //examples in notes.txt
       int octave = (noteNumber / 12) - 1;
       string noteName = noteNames[noteNumber % 12];
-
       return [noteName, octave.ToString()];
     }
 
+    //returns frequency of note name, example in notes
     public float GetTargetFrequency(string noteName, int octave) {
       string[] noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
 

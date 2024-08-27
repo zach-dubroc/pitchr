@@ -1,88 +1,100 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿
+    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
              x:Class="pitchr.MainPage"
-             BackgroundColor="#121212">
-    <!-- Spotify Dark Background -->
-    <Grid Padding="20">
+             BackgroundColor="#121212"
+             >
+             
+           
+      <!--main grid-->
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Top bar with title -->
         <StackLayout Orientation="Horizontal" 
                      HorizontalOptions="Center" 
-                     VerticalOptions="Start"
+                     VerticalOptions="End"
+                     Padding="20"
                      Grid.Row="0">
             <Label Text="pitchr"
                    FontSize="24"
                    TextColor="#FFFFFA"
                    HorizontalOptions="CenterAndExpand"
-                   FontAttributes="Bold"/>
+                   FontAttributes="None"/>
         </StackLayout>
-
-        <!-- Main content area for pitch detection and tuning indicator -->
+        
+        <!--note/octave/needle grid, needle overflows-->
         <Grid Grid.Row="1" VerticalOptions="FillAndExpand">
-            <skia:SKCanvasView x:Name="waveFormCanvas"
-                               PaintSurface="OnCanvasViewPaintSurface" 
-                               VerticalOptions="FillAndExpand"
-                               HorizontalOptions="FillAndExpand" />
-
             <StackLayout VerticalOptions="Center"
                          HorizontalOptions="Center"
                          Orientation="Vertical">
                 <Label 
-                        x:Name="freqLbl"
-                        Text="440 Hz"
-                        FontSize="19"
-                        TextColor="#B3B3B3" 
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center" />
-                <Label 
-                       x:Name="noteLbl"
-                       Text="E"
-                       FontSize="100"
-                       TextColor="#1DB954" 
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
-                       FontAttributes="Bold"/>
-                <Label 
-                        x:Name="octaveLbl"
-                        Text="4"
-                        FontSize="50"
-                        TextColor="#1DB954" 
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        FontAttributes="Bold"/>
-
-                <!-- Needle Indicator -->
+                 x:Name="freqLbl"
+                 Text="440 Hz"
+                 FontSize="19"
+                 TextColor="#B3B3B3" 
+                 HorizontalOptions="Center"
+                 VerticalOptions="Center" />
+                <StackLayout
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal">
+                    <Label 
+                    x:Name="noteLbl"
+                    Text="E"
+                    FontSize="50"
+                    TextColor="#1DB954" 
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"/>
+                    <Label 
+                    x:Name="octaveLbl"
+                    Text="4"
+                    FontSize="20"
+                    TextColor="#1DB954" 
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"
+                    FontAttributes="Bold"/>
+                </StackLayout>
                 <Image x:Name="needleImage"
-                       Source="C:\Users\MCA\Downloads\needle.png"
-                       WidthRequest="200"
-                       HeightRequest="200"
+                       Source="C:\Users\MCA\source\repos\pitchr\refs\needle.png"
+                       HeightRequest="150"
+                       WidthRequest="150"
                        VerticalOptions="End"
                        HorizontalOptions="Center"
                        Rotation="0"
-                       AnchorY="5"
-                       AnchorX="0"
-                       />
-                       
+                       AnchorY="1"
+                       AnchorX="1" />
             </StackLayout>
-
-
         </Grid>
-        <!-- Bottom bar with instructions -->
+
+        <!-- soundWave area, optional maybe add more colors in background -->
+        <skia:SKCanvasView x:Name="waveFormCanvas"
+                           Grid.Row="2"
+                           HeightRequest="50"
+                           PaintSurface="OnCanvasViewPaintSurface"
+                           VerticalOptions="End"
+                           HorizontalOptions="FillAndExpand" />
+        <!-- random quote area -->
         <StackLayout Orientation="Vertical"
                      HorizontalOptions="Center" 
-                     VerticalOptions="End"
-                     Grid.Row="2">
-            <Label Text="random quote here from an api call if a lyric/guitar api exists and is free"
+                     VerticalOptions="Start"
+                     Grid.Row="3">
+            <Label 
+                   x:Name="quoteLbl"
+                   Text=""
+                   Padding="5"
                    FontSize="13"
                    TextColor="#B3B3B3"
-                   HorizontalOptions="Center"/>
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                />
+                   
         </StackLayout>
     </Grid>
 </ContentPage>

@@ -1,0 +1,55 @@
+
+BeginInvokeOnMainThread
+BeginInvokeOnMainThread itself tests if the current code is running on the main thread or not. If the code is running on the main thread, BeginInvokeOnMainThread just calls the provided method directly. If the code is running on a secondary
+thread, BeginInvokeOnMainThread invokes the provided method on the main thread.
+
+think bug was something running on a separate thread trying to use the same audio data as another and being thrown off by time differnce --> invalid values
+
+test freqs
+-C4(middle c) = 261 PASS
+-F4 = 369 PASS
+-G#2 = 103 PASS
+-not super with low freqs
+
+Hamming Window:
+minimizes the portion of the sides of the signal that the fft is running on, in "refs/hamWindow.png" the goal is to measure less over the red lined data to be more accurate on the green lined data
+
+note name examples
+noteNumber = 24 (C1) gives 24 / 12 = 2. Without the -1, this would incorrectly suggest that C1 is in the second octave, but in standard music notation, C1 is actually in octave 1.
+MIDI starts its numbering from octave -1
+Practical Example
+Let's take a specific note:
+
+HSLA
+hue, saturation, lightness, alpha
+
+C4 (Middle C):
+MIDI note number for C4 is 60.
+60 / 12 = 5.
+Without the -1, this would suggest octave 5, but C4 is in the 4th octave.
+Subtracting 1 gives us the correct octave: 5 - 1 = 
+
+freq from note name example
+to find G#5
+noteNames = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+so
+	reference freq of A440.0Hz, which = 69
+	octave is 5
+	G# index is 8
+	note number is 8 + (octave + 1) * 12
+	= 80
+so 
+	find  2^((notenumber - 69) / 12)
+	that value * 440.0 = frequency of G#5
+	so frequency of G#5 = 830.61
+
+FFT
+examples/sources
+https://www.jezzamon.com/fourier/
+https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/
+not fft specific but good takes had to save
+https://worrydream.com/LearnableProgramming/
+Given a signal it can find the specific frequency by filtering through all the speed/amplitude data captured. 
+
+Interpolation: 
+takes the peak index and measure neighboring indexes to imporove peak accuracy, in case the true peak is between two FFT indexes

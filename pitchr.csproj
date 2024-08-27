@@ -63,6 +63,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.70" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="NAudio" Version="2.2.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="NWaves" Version="0.9.6" />
 		<PackageReference Include="SkiaSharp" Version="3.0.0-preview.4.1" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.0.0-preview.4.1" />
